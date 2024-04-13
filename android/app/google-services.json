@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "674794837429",
+    "project_id": "ecomfix",
+    "storage_bucket": "ecomfix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674794837429:android:133d6e2ec09eb310d2b5fc",
+        "android_client_info": {
+          "package_name": "com.example.ecomfix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBCzhKwE9JLb9-_AMjgvfxQWVHlAXhenQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
