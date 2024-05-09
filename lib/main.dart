@@ -1,11 +1,16 @@
 
+import 'package:ecomfix/api/api_service.dart';
+
+import 'package:ecomfix/example/demo_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc/register_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'auth/splash.dart';
+import 'bloc/products/bloc/product_bloc.dart';
+
 import 'firebase_options.dart';
-import 'urls/firebase_urls/firebase_provider.dart';
-import 'widgets/app_routes.dart';
+
 
 void main() async {
 
@@ -14,7 +19,9 @@ void main() async {
 
   runApp(MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => RegisterBloc(firebaseProvider: FirebaseProvider(), context: context),),
+
+        BlocProvider(create: (context) => UserBloc()),
+        BlocProvider(create: (context) => ProductBloc(apiHelper: ApiProductHelper()),)
       ],
       child: const MyApp()));
 }
@@ -25,15 +32,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'mahaLaxmi',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp(
+        darkTheme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        title: 'mahaLaxmi',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent),
+          useMaterial3: true,
+        ),
+        home: const SplashPage(),
       ),
-      initialRoute: AppRoutes.loginPage,
-      routes: AppRoutes.myRoutes(),
     );
   }
 }

@@ -1,4 +1,7 @@
 
+
+/*
+
 import 'package:flutter/cupertino.dart';
 import '../auth/home.dart';
 import '../auth/login.dart';
@@ -23,3 +26,4 @@ class AppRoutes {
   }
 
 }
+*/

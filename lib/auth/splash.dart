@@ -9,6 +9,8 @@ import 'home.dart';
 import 'login.dart';
 
 class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return SplashPageState();

@@ -1,9 +1,10 @@
+import 'dart:developer';
+import 'package:ecomfix/auth/login.dart';
+import 'package:ecomfix/bloc/register_event.dart';
+import 'package:ecomfix/example/demo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/register_bloc.dart';
 import '../models/user_model/my_user_model.dart';
-import '../widgets/app_routes.dart';
 import '../widgets/textform_field.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -36,15 +37,15 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Create an account!",
                   style: TextStyle(fontSize: 22, color: Colors.orange),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35.0,
                 ),
                 userTextField(
-                  preIcon: Icon(Icons.person),
+                  preIcon: const Icon(Icons.person),
                   hintTxt: "first name",
                   myController: fnameController,
                   myValidator: (value) {
@@ -53,11 +54,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 19.0,
                 ),
                 userTextField(
-                  preIcon: Icon(Icons.person),
+                  preIcon: const Icon(Icons.person),
                   hintTxt: "last name",
                   myController: lnameController,
                   myValidator: (value) {
@@ -66,12 +67,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 19.0,
                 ),
                 userTextField(
                   preIcon: const Icon(Icons.email_outlined),
-                  hintTxt: "email",
+                  hintTxt: "email address",
                   myController: emailController,
                   myValidator: (value) {
                     if (value!.isEmpty) {
@@ -79,12 +80,25 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 19.0,
+                ),
+                userTextField(
+                  preIcon: const Icon(Icons.mobile_friendly_rounded),
+                  hintTxt: "mobile number",
+                  myController: phoneController,
+                  myValidator: (value) {
+                    if (value!.isEmpty) {
+                      return "Phone number don't`be Empty";
+                    }
+                  },
+                ),
+                const SizedBox(
                   height: 19.0,
                 ),
                 userTextField(
                   obscureBool: true,
-                  preIcon: Icon(Icons.remove_red_eye),
+                  preIcon: const Icon(Icons.remove_red_eye),
                   hintTxt: "password",
                   myController: passController,
                   myValidator: (value) {
@@ -95,37 +109,34 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "SignUp",
                       style: TextStyle(fontSize: 17, color: Colors.deepOrange),
                     ),
                     IconButton(
                       onPressed: () async {
                         /// user created
-                        if (mSignUpKey.currentState!.validate()) {
-                          if (fnameController.text.isNotEmpty &&
-                              lnameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              passController.text.isNotEmpty) {
-                            var ekUser = UserModel(
-                                firstName: fnameController.text.trim(),
-                                lastName: lnameController.text.trim(),
-                                userEmail: emailController.text.toString(),
-                                userPass: passController.text.toString(),
-                                userPhone: phoneController.text.toString(),
 
-                            ); BlocProvider.of<RegisterBloc>(context)
-                                .add(CreateUserEvent(newUser: ekUser));
+                        var ekUser = UserModel(
+                          firstName: fnameController.text.trim(),
+                          lastName: lnameController.text.trim(),
+                          userEmail: emailController.text.toString(),
+                          userPass: passController.text.toString(),
+                          userPhone: phoneController.text.toString(),
+                        );
 
+                        context.read<UserBloc>().add(
+                            CreateUserEvent(newUser: ekUser, context: context));
 
-                          }
-                        }
+                        log('user created');
+
+                    //    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(),));
                       },
                       icon: const Icon(Icons.play_circle_rounded),
                       iconSize: 55,
@@ -133,19 +144,22 @@ class _SignUpPageState extends State<SignUpPage> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                        child: Text("Sign In",
+                        child: const Text("Sign In",
                             style: TextStyle(
                                 fontSize: 14, color: Colors.deepOrange)),
                         onTap: () {
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.loginPage);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ));
                         }),
                   ],
                 ),
@@ -157,130 +171,3 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-
-/// before bloc builder
-///
-///
-// Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Text(
-//                   "Create an account!",
-//                   style: TextStyle(fontSize: 22, color: Colors.orange),
-//                 ),
-//                 SizedBox(
-//                   height: 35.0,
-//                 ),
-//                 userTextField(
-//                   preIcon: Icon(Icons.person),
-//                   hintTxt: "first name",
-//                   myController: fnameController,
-//                   myValidator: (value) {
-//                     if (value!.isEmpty) {
-//                       return "first name is Required don't`be Empty";
-//                     }
-//                   },
-//                 ),
-//                 SizedBox(
-//                   height: 19.0,
-//                 ),
-//                 userTextField(
-//                   preIcon: Icon(Icons.person),
-//                   hintTxt: "last name",
-//                   myController: lnameController,
-//                   myValidator: (value) {
-//                     if (value!.isEmpty) {
-//                       return "last name is Required don't`be Empty";
-//                     }
-//                   },
-//                 ),
-//                 SizedBox(
-//                   height: 19.0,
-//                 ),
-//                 userTextField(
-//                   preIcon: const Icon(Icons.email_outlined),
-//                   hintTxt: "email",
-//                   myController: emailController,
-//                   myValidator: (value) {
-//                     if (value!.isEmpty) {
-//                       return "Email is Required don't`be Empty";
-//                     }
-//                   },
-//                 ),
-//                 SizedBox(
-//                   height: 19.0,
-//                 ),
-//                 userTextField(
-//                   obscureBool: true,
-//                   preIcon: Icon(Icons.remove_red_eye),
-//                   hintTxt: "password",
-//                   myController: passController,
-//                   myValidator: (value) {
-//                     if (value!.isEmpty) {
-//                       return "password is Required don't`be Empty";
-//                     } else if (value.length <= 6) {
-//                       return "at least password 6 length";
-//                     }
-//                   },
-//                 ),
-//                 SizedBox(
-//                   height: 40.0,
-//                 ),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     Text(
-//                       "SignUp",
-//                       style: TextStyle(fontSize: 17, color: Colors.deepOrange),
-//                     ),
-//                     IconButton(
-//                       onPressed: () async {
-//                         /// user created
-//                         if (mSignUpKey.currentState!.validate()) {
-//                           if (fnameController.text.isNotEmpty &&
-//                               lnameController.text.isNotEmpty &&
-//                               emailController.text.isNotEmpty &&
-//                               passController.text.isNotEmpty) {
-//
-//                             /*FirebaseProvider.createUser(
-//                                 email: emailController.text.trim(),
-//                                 pass: passController.text.trim(),
-//                                 fname: fnameController.text.trim(),
-//                                 lname: lnameController.text.trim(),
-//                                 context: context, );*/
-//
-//                             var ekUser = UserModel(
-//                                 firstName: fnameController.text.trim(),
-//                                 lastName: lnameController.text.trim(),
-//                                 userEmail: emailController.text.toString(),
-//                                 userPass: passController.text.toString());
-//
-//                             BlocProvider.of<RegisterBloc>(context).add(
-//                                 CreateUserEvent(newUser: ekUser,));
-//                           }
-//                         }
-//                       },
-//                       icon: const Icon(Icons.play_circle_rounded),
-//                       iconSize: 55,
-//                       color: Colors.deepOrange,
-//                     )
-//                   ],
-//                 ),
-//                 SizedBox(
-//                   height: 30.0,
-//                 ),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     InkWell(
-//                         child: Text("Sign In",
-//                             style: TextStyle(
-//                                 fontSize: 14, color: Colors.deepOrange)),
-//                         onTap: () {
-//                           Navigator.pushReplacementNamed(
-//                               context, AppRoutes.loginPage);
-//                         }),
-//                   ],
-//                 ),
-//               ],
-//             ),

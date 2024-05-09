@@ -25,7 +25,7 @@ class ApiHelper {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString (PrefsUser.LOGIN_TOKEN_PREFS_KEY, mData["token"] ?? "");
 
-      print("your token printed : ${mData["token"]}");
+      log("your token printed : ${mData["token"]}");
 
     }
   }
